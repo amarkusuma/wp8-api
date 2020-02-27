@@ -23,16 +23,23 @@ class Form_api
     {
         $url = 'http://localhost/wordpress/wp-json/wp/v2/posts/' . $id;
         $args = array(
-            'method' => 'DELETE'
+            'method' => 'DELETE',
+            'headers'  => array(
+
+                'Authorization' => 'Basic ' . base64_encode('admin: admin'),
+            ),
+
         );
         $response =  wp_remote_request($url, $args);
 
         return $response;
     }
 
+
+
     function my_plugin_menu()
     {
-        add_options_page('Rest Api Options', 'Rest Api ', 'manage_options', 'my-unique-identifier', array($this, 'my_plugin_options'));
+        add_menu_page('Rest Api Options', 'Form Api ', 'manage_options', 'my-menu', array($this, 'my_plugin_options'));
     }
 
     function my_plugin_options()
@@ -72,9 +79,9 @@ class Form_api
 
                     <td width="20%">
                         <center>
-                            <a>Update</a> |
+                            <a href="<?php echo admin_url('admin.php?page=update') . '&id=' . $data->id ?>">Update</a> |
                             <!-- <a href="<?php echo 'http://localhost/wordpress/wp-json/wp/v2/posts/' . $data->id ?>">delete</a> -->
-                            <a href="<?php echo admin_url('options-general.php?page=my-unique-identifier') . '&id=' . $data->id ?>">delete</a>
+                            <a href="<?php echo admin_url('admin.php?page=my-menu') . '&id=' . $data->id ?>">delete</a>
                         </center>
                     </td>
 

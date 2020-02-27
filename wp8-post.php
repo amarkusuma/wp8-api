@@ -23,15 +23,11 @@ class Api_post
 
         echo '<p><input type="submit" name="submit" value="Send"></p>';
         echo '</form>';
-
-        // wp_redirect( site_url('/') ); // <-- here goes address of site that user should be redirected after submitting that form
-        // die;
-
     }
 
     function post_data()
     {
-        $url = wp_remote_post('http://localhost/wordpress/wp-json/wp/v2/posts');
+        $url = 'http://localhost/wordpress/wp-json/wp/v2/posts';
 
         if (isset($_POST['submit'])) {
             $title = isset($_POST['input-title']) ? sanitize_text_field($_POST['input-title']) : '';
@@ -46,9 +42,10 @@ class Api_post
                     'httpversion' => '1.0',
                     'blocking'    => true,
                     'headers'  => array(
-                        'Content-type: application/x-www-form-urlencoded',
+
+                        'Authorization' => 'Basic ' . base64_encode('admin: admin'),
                     ),
-                    'body' => array('title' => $title, 'content' => $content),
+                    'body' => array('title' => $title, 'content' => $content, 'status' => 'publish'),
                     'cookies' => array()
                 )
             );
@@ -57,8 +54,8 @@ class Api_post
                 $error_message = $response->get_error_message();
                 echo "Something went wrong: $error_message";
             } else {
-                echo 'Response:<pre>';
-                print_r($response);
+                echo 'Success <pre>';
+                // print_r($response);
                 echo '</pre>';
             }
         }

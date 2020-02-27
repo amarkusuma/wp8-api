@@ -7,6 +7,8 @@ Author: Ammar
 */
 
 require_once('wp8-post.php');
+require_once('wp8-form.php');
+require_once('wp8-update.php');
 
 $api = new Api();
 add_shortcode('wp8_api', [$api, 'fomPage']);
