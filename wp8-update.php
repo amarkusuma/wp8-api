@@ -35,23 +35,24 @@ class Wp8_update
         if (isset($_GET['id'])) {
             $id = $_GET['id'];
             $data = $this->get_data($id);
+
+
+            echo '<h3>Update Data Posts</h3>';
+            echo '<form action="' . esc_url($_SERVER['REQUEST_URI'])  . '" method="post">';
+            echo '<p>';
+            echo 'Title  <br/>';
+            echo '<input type="text" name="input-title" value="' . (isset($_POST["input-title"]) ? esc_attr($_POST["input-title"]) : $data->slug) . '" size="40" />';
+            echo '</p>';
+            // echo "<p>" . var_dump($data) . "</p>";
+            echo '<p>';
+            echo 'Content <br/>';
+            echo '<textarea rows="5" cols="45" name="input-content">' . (isset($_POST["input-content"]) ? esc_attr($_POST["input-content"]) : $data->content->rendered) . '</textarea>';
+            echo '</p>';
+
+
+            echo '<p><input type="submit" name="submit" value="Send"></p>';
+            echo '</form>';
         }
-
-        echo '<h3>Update Data Posts</h3>';
-        echo '<form action="' . esc_url($_SERVER['REQUEST_URI'])  . '" method="post">';
-        echo '<p>';
-        echo 'Title  <br/>';
-        echo '<input type="text" name="input-title" value="' . (isset($_POST["input-title"]) ? esc_attr($_POST["input-title"]) : $data->slug) . '" size="40" />';
-        echo '</p>';
-        // echo "<p>" . var_dump($data) . "</p>";
-        echo '<p>';
-        echo 'Content <br/>';
-        echo '<textarea rows="5" cols="45" name="input-content">' . (isset($_POST["input-content"]) ? esc_attr($_POST["input-content"]) : $data->content->rendered) . '</textarea>';
-        echo '</p>';
-
-
-        echo '<p><input type="submit" name="submit" value="Send"></p>';
-        echo '</form>';
     }
     function update($id)
     {
