@@ -25,48 +25,14 @@ class Api_post
         echo '</form>';
     }
 
-    function post_data()
-    {
-        $url = 'http://localhost/wordpress/wp-json/wp/v2/posts';
-
-        if (isset($_POST['submit'])) {
-            $title = isset($_POST['input-title']) ? sanitize_text_field($_POST['input-title']) : '';
-            $content = isset($_POST['input-content']) ? sanitize_text_field($_POST['input-content']) : '';
-
-            $response = wp_remote_post(
-                $url,
-                array(
-                    'method' => 'POST',
-                    'timeout'     => 45,
-                    'redirection' => 5,
-                    'httpversion' => '1.0',
-                    'blocking'    => true,
-                    'headers'  => array(
-
-                        'Authorization' => 'Basic ' . base64_encode('admin: admin'),
-                    ),
-                    'body' => array('title' => $title, 'content' => $content, 'status' => 'publish'),
-                    'cookies' => array()
-                )
-            );
-
-            if (is_wp_error($response)) {
-                $error_message = $response->get_error_message();
-                echo "Something went wrong: $error_message";
-            } else {
-                echo 'Success <pre>';
-                // print_r($response);
-                echo '</pre>';
-            }
-        }
-    }
 
     function fomPage()
     {
 
         ob_start();
         $this->html_form_code();
-        $this->post_data();
+        $this->api = new Api();
+        $this->api->post_data();
         return ob_get_clean();
     }
 }

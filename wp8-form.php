@@ -7,36 +7,6 @@ class Form_api
 {
 
 
-    function get_data()
-    {
-        $response = wp_remote_get('http://localhost/wordpress/wp-json/wp/v2/posts');
-
-        if (is_array($response)) {
-            // $header = $response['headers'];
-            $body = $response['body'];
-            $data = json_decode($body);
-        }
-        return $data;
-    }
-
-    function delete_data($id)
-    {
-        $url = 'http://localhost/wordpress/wp-json/wp/v2/posts/' . $id;
-        $args = array(
-            'method' => 'DELETE',
-            'headers'  => array(
-
-                'Authorization' => 'Basic ' . base64_encode('admin: admin'),
-            ),
-
-        );
-        $response =  wp_remote_request($url, $args);
-
-        return $response;
-    }
-
-
-
     function my_plugin_menu()
     {
         add_menu_page('Rest Api Options', 'Form Api ', 'manage_options', 'my-menu', array($this, 'my_plugin_options'));
@@ -51,7 +21,8 @@ class Form_api
 
         if (isset($_GET['id'])) {
             $id = $_GET['id'];
-            $this->delete_data($id);
+            $this->api = new Api();
+            $this->api->delete_data($id);
         }
 ?>
         <br><br>
@@ -67,7 +38,8 @@ class Form_api
             </tr>
 
             <?php
-            $rest_api = $this->get_data();
+            $this->api = new Api();
+            $rest_api = $this->api->get_data();
             foreach ($rest_api as $data) {
             ?>
                 <tr>

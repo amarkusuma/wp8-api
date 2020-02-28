@@ -13,7 +13,7 @@ class Wp8_update
         add_submenu_page('my-menu', 'Form Update', 'Form Update', 'manage_options', 'update', array($this, 'form_update'));
     }
 
-    function get_data($id)
+    function get_data_id($id)
     {
         $response = wp_remote_get('http://localhost/wordpress/wp-json/wp/v2/posts/' . $id);
 
@@ -30,11 +30,13 @@ class Wp8_update
     {
         if (isset($_POST['submit'])) {
             $id = $_GET['id'];
-            $this->update($id);
+            $this->api = new Api();
+            $this->api->update($id);
         }
         if (isset($_GET['id'])) {
             $id = $_GET['id'];
-            $data = $this->get_data($id);
+            $this->api = new Api();
+            $data = $this->api->get_data_id($id);
 
 
             echo '<h3>Update Data Posts</h3>';
@@ -52,42 +54,6 @@ class Wp8_update
 
             echo '<p><input type="submit" name="submit" value="Send"></p>';
             echo '</form>';
-        }
-    }
-    function update($id)
-    {
-        $url = 'http://localhost/wordpress/wp-json/wp/v2/posts/' . $id;
-
-        if (isset($_GET['id'])) {
-            $title = isset($_POST['input-title']) ? sanitize_text_field($_POST['input-title']) : '';
-            $content = isset($_POST['input-content']) ? sanitize_text_field($_POST['input-content']) : '';
-
-            $response = wp_remote_post(
-                $url,
-                array(
-                    'method' => 'POST',
-                    'timeout'     => 45,
-                    'redirection' => 5,
-                    'httpversion' => '1.0',
-                    'blocking'    => true,
-                    'headers'  => array(
-
-                        'Authorization' => 'Basic ' . base64_encode('admin: admin'),
-                    ),
-                    'body' => array('slug' => $title, 'content' => $content, 'status' => 'publish'),
-                    'cookies' => array()
-                )
-            );
-
-            if (is_wp_error($response)) {
-                $error_message = $response->get_error_message();
-                echo "Something went wrong: $error_message";
-            } else {
-                echo 'Success <pre>';
-                // print_r($response);
-                echo '</pre>';
-            }
-            return $response;
         }
     }
 }
