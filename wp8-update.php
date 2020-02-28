@@ -13,18 +13,6 @@ class Wp8_update
         add_submenu_page('my-menu', 'Form Update', 'Form Update', 'manage_options', 'update', array($this, 'form_update'));
     }
 
-    function get_data_id($id)
-    {
-        $response = wp_remote_get('http://localhost/wordpress/wp-json/wp/v2/posts/' . $id);
-
-        if (is_array($response)) {
-            // $header = $response['headers'];
-            $body = $response['body'];
-            $data = json_decode($body);
-        }
-        return $data;
-    }
-
 
     function form_update()
     {

@@ -18,11 +18,12 @@ class Api
 
     function get_data()
     {
-        $response = wp_remote_get('http://localhost/wordpress/wp-json/wp/v2/posts');
+        $url = site_url() . '/wp-json/wp/v2/posts';
+        $response = wp_remote_get($url);
 
         if (is_array($response)) {
             // $header = $response['headers'];
-            $body = $response['body'];
+            $body = wp_remote_retrieve_body($response);
             $data = json_decode($body);
         }
         return $data;
@@ -30,11 +31,12 @@ class Api
 
     function get_data_id($id)
     {
-        $response = wp_remote_get('http://localhost/wordpress/wp-json/wp/v2/posts/' . $id);
+        $url = site_url() . '/wp-json/wp/v2/posts/' . $id;
+        $response = wp_remote_get($url);
 
         if (is_array($response)) {
             // $header = $response['headers'];
-            $body = $response['body'];
+            $body = wp_remote_retrieve_body($response);
             $data = json_decode($body);
         }
         return $data;
@@ -43,7 +45,8 @@ class Api
 
     function delete_data($id)
     {
-        $url = 'http://localhost/wordpress/wp-json/wp/v2/posts/' . $id;
+        $url = site_url() . '/wp-json/wp/v2/posts/' . $id;
+
         $args = array(
             'method' => 'DELETE',
             'headers'  => array(
@@ -59,7 +62,7 @@ class Api
 
     function post_data()
     {
-        $url = 'http://localhost/wordpress/wp-json/wp/v2/posts';
+        $url = site_url() . '/wp-json/wp/v2/posts';
 
         if (isset($_POST['submit'])) {
             $title = isset($_POST['input-title']) ? sanitize_text_field($_POST['input-title']) : '';
@@ -95,7 +98,8 @@ class Api
 
     function update($id)
     {
-        $url = 'http://localhost/wordpress/wp-json/wp/v2/posts/' . $id;
+        $url = site_url() . '/wp-json/wp/v2/posts/' . $id;
+
 
         if (isset($_GET['id'])) {
             $title = isset($_POST['input-title']) ? sanitize_text_field($_POST['input-title']) : '';
