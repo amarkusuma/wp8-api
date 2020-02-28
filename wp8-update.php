@@ -31,7 +31,7 @@ class Wp8_update
             echo '<form action="' . esc_url($_SERVER['REQUEST_URI'])  . '" method="post">';
             echo '<p>';
             echo 'Title  <br/>';
-            echo '<input type="text" name="input-title" value="' . (isset($_POST["input-title"]) ? esc_attr($_POST["input-title"]) : $data->slug) . '" size="40" />';
+            echo '<input type="text" name="input-title" value="' . (isset($_POST["input-title"]) ? esc_attr($_POST["input-title"]) : $data->title->rendered) . '" size="40" />';
             echo '</p>';
             // echo "<p>" . var_dump($data) . "</p>";
             echo '<p>';

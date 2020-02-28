@@ -117,7 +117,7 @@ class Api
 
                         'Authorization' => 'Basic ' . base64_encode('admin: admin'),
                     ),
-                    'body' => array('slug' => $title, 'content' => $content, 'status' => 'publish'),
+                    'body' => array('title' => $title, 'content' => $content, 'status' => 'publish'),
                     'cookies' => array()
                 )
             );
@@ -154,7 +154,7 @@ class Api
             ?>
                 <tr>
                     <td><?php echo $display_data[$i]->id; ?></td>
-                    <td width="25%"><?php echo $display_data[$i]->slug; ?></td>
+                    <td width="25%"><?php echo $display_data[$i]->title->rendered; ?></td>
                     <td width="65%"><?php echo $display_data[$i]->content->rendered; ?></td>
                 </tr>
             <?php

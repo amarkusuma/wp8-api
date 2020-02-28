@@ -46,7 +46,7 @@ class Form_api
                     <td width="7%">
                         <center><?php echo $data->id; ?> </center>
                     </td>
-                    <td width="20%"><?php echo $data->slug; ?></td>
+                    <td width="20%"><?php echo $data->title->rendered; ?></td>
                     <td width="45%"><?php echo $data->content->rendered; ?></td>
 
                     <td width="20%">
